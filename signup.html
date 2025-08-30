@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sign Up | Calorie WebApp</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <div class="brand">Calorie WebApp</div>
+      <nav class="nav">
+        <a href="index.html">Home</a>
+        <a href="login.html">Login</a>
+        <a href="signup.html" class="active">Sign Up</a>
+      </nav>
+    </header>
+
+    <main>
+      <div class="card">
+        <h2>Create Account</h2>
+
+        <form id="signupForm" class="form" autocomplete="off">
+          <div class="form-row">
+            <label for="name">Full Name</label>
+            <input type="text" id="name" required placeholder="Jane Doe">
+          </div>
+
+          <div class="form-row">
+            <label for="email">Email</label>
+            <input type="email" id="email" required placeholder="you@example.com">
+          </div>
+
+          <div class="form-row">
+            <label for="password">Password <span class="small">(min 6 chars)</span></label>
+            <input type="password" id="password" minlength="6" required>
+          </div>
+
+          <div class="row">
+            <button type="submit" class="btn">Sign Up</button>
+            <a href="login.html" class="btn secondary" style="padding:9px 12px;">Already have account</a>
+          </div>
+          <p class="small" style="margin-top:10px">After signing up, you’ll be redirected to the food logger app.</p>
+        </form>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <p>&copy; 2025 Calorie WebApp. All rights reserved.</p>
+    </footer>
+  </div>
+
+  <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('signupForm');
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const name = (document.getElementById('name').value || '').trim();
+      const email = (document.getElementById('email').value || '').trim().toLowerCase();
+      const password = document.getElementById('password').value || '';
+
+      if (!name || !email) {
+        alert('Please enter name and email.');
+        return;
+      }
+      if (password.length < 6) {
+        alert('Password must be at least 6 characters.');
+        return;
+      }
+
+      // Save user info in localStorage
+      const user = { name, email, createdAt: new Date().toISOString() };
+      try {
+        localStorage.setItem('calorieAppUser', JSON.stringify(user));
+        localStorage.setItem('currentUser', JSON.stringify(user));
+      } catch (err) {
+        console.error('localStorage error', err);
+      }
+
+      // Redirect to the food logger page (we will create this next)
+      window.location.href = 'food-logger.html';
+    });
+  });
+  </script>
+</body>
+</html>
